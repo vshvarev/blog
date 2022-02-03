@@ -2,21 +2,21 @@
 
 namespace Blog;
 
-use PDO;
+use Blog\Database;
 
 class LatestPosts
 {
     /**
-     * @var PDO
+     * @var \Blog\Database
      */
-    private PDO $connection;
+    private Database $database;
 
     /**
-     * @param PDO $connection
+     * @param \Blog\Database $database
      */
-    public function __construct( PDO $connection)
+    public function __construct(Database $database)
     {
-        $this->connection = $connection;
+        $this->database = $database;
     }
 
     /**
@@ -25,7 +25,7 @@ class LatestPosts
      */
     public function get(int $limit): ?array
     {
-        $statement = $this->connection->prepare(
+        $statement = $this->database->getConnection()->prepare(
             'SELECT * FROM post ORDER BY published_date DESC LIMIT ' . $limit
         );
 
